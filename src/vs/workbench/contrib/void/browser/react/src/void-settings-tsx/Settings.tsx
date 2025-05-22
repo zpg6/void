@@ -711,12 +711,6 @@ export const SettingsForProvider = ({ providerName, showProviderTitle, showProvi
 				/>
 			})}
 
-			{providerName === 'azureAiFoundry' &&
-				<div className="opacity-80 mb-4 mt-4">
-					<AzureAiInferenceSetupInstructions />
-				</div>
-			}
-
 			{showProviderSuggestions && needsModel ?
 				providerName === 'ollama' ?
 					<WarningBox className="pl-2 mb-4" text={`Please install an Ollama model. We'll auto-detect it.`} />
@@ -820,7 +814,7 @@ export const OllamaSetupInstructions = ({ sayWeAutoDetect }: { sayWeAutoDetect?:
 	</div>
 }
 
-export const AzureAiInferenceSetupInstructions = () => {
+export const AzureAiFoundrySetupInstructions = () => {
 	return <div className='prose-p:my-0 prose-ol:list-decimal prose-p:py-0 prose-ol:my-0 prose-ol:py-0 prose-span:my-0 prose-span:py-0 text-void-fg-3 text-sm list-decimal select-text'>
 		<div className=''><ChatMarkdownRender string={`Azure AI Foundry (Non-OpenAI Models) Setup Instructions`} chatMessageLocation={undefined} /></div>
 		<div className=' pl-6'><ChatMarkdownRender string={`1. Enter your Endpoint URL and API Key from Azure AI Foundry.`} chatMessageLocation={undefined} /></div>
