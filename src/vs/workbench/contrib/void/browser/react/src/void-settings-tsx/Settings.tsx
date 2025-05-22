@@ -711,10 +711,18 @@ export const SettingsForProvider = ({ providerName, showProviderTitle, showProvi
 				/>
 			})}
 
+			{providerName === 'azureAiFoundry' &&
+				<div className="opacity-80 mb-4 mt-4">
+					<AzureAiInferenceSetupInstructions />
+				</div>
+			}
+
 			{showProviderSuggestions && needsModel ?
 				providerName === 'ollama' ?
 					<WarningBox className="pl-2 mb-4" text={`Please install an Ollama model. We'll auto-detect it.`} />
-					: <WarningBox className="pl-2 mb-4" text={`Please add a model for ${providerTitle} (Models section).`} />
+					: providerName === 'azureAiFoundry' ?
+						<WarningBox className="pl-2 mb-4" text={`Please add a model deployed to your Azure AI Foundry endpoint.`} />
+						: <WarningBox className="pl-2 mb-4" text={`Please add a model for ${providerTitle} (Models section).`} />
 				: null}
 		</div>
 	</div >
@@ -809,6 +817,15 @@ export const OllamaSetupInstructions = ({ sayWeAutoDetect }: { sayWeAutoDetect?:
 			<ChatMarkdownRender string={`3. Run \`ollama pull your_model\` to install a model.`} chatMessageLocation={undefined} />
 		</div>
 		{sayWeAutoDetect && <div className=' pl-6'><ChatMarkdownRender string={`Void automatically detects locally running models and enables them.`} chatMessageLocation={undefined} /></div>}
+	</div>
+}
+
+export const AzureAiInferenceSetupInstructions = () => {
+	return <div className='prose-p:my-0 prose-ol:list-decimal prose-p:py-0 prose-ol:my-0 prose-ol:py-0 prose-span:my-0 prose-span:py-0 text-void-fg-3 text-sm list-decimal select-text'>
+		<div className=''><ChatMarkdownRender string={`Azure AI Foundry (Non-OpenAI Models) Setup Instructions`} chatMessageLocation={undefined} /></div>
+		<div className=' pl-6'><ChatMarkdownRender string={`1. Enter your Endpoint URL and API Key from Azure AI Foundry.`} chatMessageLocation={undefined} /></div>
+		<div className=' pl-6'><ChatMarkdownRender string={`2. Add models deployed to your endpoint using the "Add a model" button below.`} chatMessageLocation={undefined} /></div>
+		<div className=' pl-6'><ChatMarkdownRender string={`3. Common model formats: ModelName, DeepSeek-V3-0324, etc.`} chatMessageLocation={undefined} /></div>
 	</div>
 }
 

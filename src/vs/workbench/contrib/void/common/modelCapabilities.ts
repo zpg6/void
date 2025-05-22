@@ -55,10 +55,15 @@ export const defaultProviderSettings = {
 		region: 'us-west2',
 		project: '',
 	},
-	microsoftAzure: { // microsoft Azure Foundry
+	microsoftAzure: { // Azure OpenAI Models
 		project: '', // really 'resource'
 		apiKey: '',
 		azureApiVersion: '2024-05-01-preview',
+	},
+	azureAiFoundry: { // Azure AI Foundry (Azure AI Inference SDK, non-OpenAI models)
+		endpoint: '',
+		apiKey: '',
+		azureApiVersion: '2024-12-01-preview',
 	},
 } as const
 
@@ -137,6 +142,7 @@ export const defaultModelsOfProvider = {
 	googleVertex: [],
 	microsoftAzure: [],
 	liteLLM: [],
+	azureAiFoundry: [],
 
 
 } as const satisfies Record<ProviderName, string[]>
@@ -1314,6 +1320,40 @@ const openRouterSettings: VoidStaticProviderInfo = {
 
 
 
+// ---------------- AZURE AI INFERENCE ----------------
+const azureAiFoundrySettings: VoidStaticProviderInfo = {
+	modelOptions: {
+		'default-model': {
+			contextWindow: 32_000,
+			reservedOutputTokenSpace: 4_096,
+			cost: { input: 0, output: 0 },
+			downloadable: false,
+			supportsFIM: false,
+			supportsSystemMessage: 'system-role',
+			specialToolFormat: 'openai-style',
+			reasoningCapabilities: false,
+		}
+	},
+	modelOptionsFallback: (modelName) => {
+		return {
+			modelName,
+			recognizedModelName: 'default-model',
+			...defaultModelOptions,
+			supportsFIM: false,
+			supportsSystemMessage: 'system-role',
+			specialToolFormat: 'openai-style',
+			contextWindow: 32_000,
+			reservedOutputTokenSpace: 4_096,
+			cost: { input: 0, output: 0 },
+			downloadable: false,
+			isUnrecognizedModel: false
+		};
+	},
+	providerReasoningIOSettings: {
+		input: { includeInPayload: openAICompatIncludeInPayloadReasoning },
+	},
+}
+
 // ---------------- model settings of everything above ----------------
 
 const modelSettingsOfProvider: { [providerName in ProviderName]: VoidStaticProviderInfo } = {
@@ -1338,6 +1378,7 @@ const modelSettingsOfProvider: { [providerName in ProviderName]: VoidStaticProvi
 
 	googleVertex: googleVertexSettings,
 	microsoftAzure: microsoftAzureSettings,
+	azureAiFoundry: azureAiFoundrySettings,
 } as const
 
 
