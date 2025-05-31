@@ -35,3 +35,7 @@ Void is a fork of the [vscode](https://github.com/microsoft/vscode) repository. 
 
 ## Support
 You can always reach us in our Discord server or contact us via email: hello@voideditor.com.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=voideditor/void&type=Date)](https://www.star-history.com/#voideditor/void&Date)
